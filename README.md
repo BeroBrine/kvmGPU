@@ -25,7 +25,8 @@ Laptop:- Legion 5i <br />
 1. Your CPU must support hardware virtualisation. Also turn on virtualisaton technology from the bios.
 2. Your motherboard must support IOMMU.
 3. Nvidia card must use nvidia kernel module i.e nvidia drivers.
-4. Guest ROM(in our case win10) must support UEFI. (win10 does support this).
+4. Guest ROM(in our case win10) must support UEFI. (win10 does support this).]
+5. An extra Pair of Keyboard mouse to Pass into the VM.
 
 ## 2) Turn on intel_iommu / amd_iommu <br>
 We need to turn on IOMMU Grouping. Using IOMMU opens to features like PCI passthrough and memory protection from faulty or malicious devices. <br>
@@ -44,7 +45,10 @@ Example ouput. <br>
 	00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v2/3rd Gen Core processor PCI Express Root Port [8086:0151] (rev 09)`
 ```diff
 - WARNING:- If you find anything other than your GPU and it's subsequent audio device and a PCI component. <br>
-- This guide won't work for you as we need the GPU components to be totally seperated. For me my GPU was in iommu group 2 and it looked like this.
+- This guide won't work for you as we need the GPU components to be totally seperated.
+- You will need to perform ACS override patch which wonn't be covered in this guide. 
+- For me my GPU was in iommu group 2 and it looked like this.
+
 ```
 ![Screenshot from 2023-09-11 23-18-12](https://github.com/BeroBrine/kvmGPU/assets/74451882/eb066545-d50f-469f-a747-59f9ab42bae1)
 ## 3) Installing the Virtual Machine Packages
@@ -55,7 +59,7 @@ Now we need to install the Virtual Machine Manager.
 3. Activate the default libvirt network.
 `virsh net-autostart default`
 `virsh net-start default`
-## 4) Installing win10. (IMPORTANT. READ THIS SECTION CAREFULLY)
+## 4) Installing win10.
 1. Open up virtual machine manager from app tray.
 2. Click on the Create A New Virtual Machine Button.
 3. Choose Local Install Media(ISO image or CDROM) option.
@@ -63,7 +67,23 @@ Now we need to install the Virtual Machine Manager.
 5. IMP:- uncheck the automatically detect from the installation media / source as virt-manger will detect it as win11
 6. Change the win11 to win10 and also click on the (win10) option from the drop down list and click next *// Clicking on the win10 from dropdown list won't make any visible effect. Just click on it and click next*
 ![Screenshot from 2023-09-11 23-40-17](https://github.com/BeroBrine/kvmGPU/assets/74451882/0c2cd8de-f0bc-49f3-9d4a-628370f73633)
-7. Choose how much memory you 
+7. Choose how much memory you want to pass. Keep atleast 3GB of RAM for Linux to avoid any unwanted behaviour. Also select the CPU that you want to pass through.
+![Screenshot from 2023-09-11 23-50-18](https://github.com/BeroBrine/kvmGPU/assets/74451882/921a7a2e-492e-43c0-bcab-bdb726fe1930)
+8. Click on forward and choose how much space you want to allocate to the Virtual Machine. I have allocated 250GB. There will be 2 options qcow2 or raw. Raw will pass the size of the disk as a whole. Also if you want to pass a disk run `lsblk` and note the path of the disk you want to pass and just paste the path in the "Select or create custom storage." and the disk will be passed through. <br>
+Beware as you will not be able to use the disk in linux properly as NTFS has it's own quirks inside linux so just leave the disk alone and don't mount it to linux.
+## 4) Customize Configuration Before Install. (IMPORTANT SECTION) (installing win10 contd..)
+1. Click on the "Customize configuration before install" <-- Imp as you won't be able to customise the install after this screen
+2. In the Overview Section , select Firmware and Choose "UEFI x86_64: /usr/share/edk2/x64/OVMF_CODE.fd" *DO NOT choose secboot ones*
+![Screenshot from 2023-09-12 00-01-48](https://github.com/BeroBrine/kvmGPU/assets/74451882/eccebf08-3c65-43da-8e39-3cd5d1ec6e10)
+3. In CPUs section. Click on Topology and click on Manually set CPU topology and set sockets to 1 and core and threads accordingly (i have passed 10 CPUs so i'll choose 5 cores and 2 Threads to a total of 10 CPUs)
+![Screenshot from 2023-09-12 00-04-31](https://github.com/BeroBrine/kvmGPU/assets/74451882/3c80de6d-14d1-4016-9be7-e10041972df3)
+4. Go to SATA Disk 1 and change the bus type to VirtIO. Also you need to download the [VirtIO drivers](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md). Download the stable virtio-win iso.
+5. Click on Add Hardware . Go onto Storage and add the virtioo.iso as CDROM device.
+6. Go to Boot Options and select SATA CDROM 1 and place it on top of VirtIO Disk 1. *This is important as virt manager doesn't automatticaly perform this and you won't be able to boot into the installtion if this step is missed.
+![Screenshot from 2023-09-12 00-14-21](https://github.com/BeroBrine/kvmGPU/assets/74451882/2c4983c7-0b93-48d2-b0b3-21ea0d58755d)
+7. Click on the Add Hardware and onto USB host device and add the extra keyboard and mouse to the Virtual Machine.
+8. We will not pass the graphics card now , it'll be performed when we will finish setting up win10 . Continue with the installation.
+
 
 
 
