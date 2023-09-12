@@ -1,7 +1,7 @@
 ## Single GPU Laptop passthrough guide.
 This guide will help those with dual monitor setup as we will be able to use the second monitor for both linux and virtual machine vm without the need for rebooting. But this will also be as useful for desktop single GPU users as well.<br>
 ***
-We will also setup core isolation as well as virtio drivers in this guide. <br>
+We will also setup core isolation as well as virtio drivers in this guide to make the performance as bare metal as possible. <br>
 For those of you who don't know what cpu isolation and virtio is read below. <br>
 > When we boot up a virtual machine and pass some CPUs(cores or threads) to it. Linux as well as the Virtual Machine both share the same resource pools. This increases latency as well as causes stuttering in games. Core Isolation ensures that Linux doesn't use the Cores that are being used by the Virtual Machine. As i have a 6 core CPU i'll be passing 5 cores to the VM and 1 core will be kept for the host i.e Linux.
 >
@@ -93,7 +93,37 @@ You should be able to boot into the window install.
 14. Setup windows until we boot into Home Screen.
 ## 5) Prepping our GPU for Pass Through.
 1. Until now we did not pass through our gpu. Now we will setup hooks so that when we turn on our virtual machine our GPU card gets attached to virtual machine and when we turn off the card gets attached to linux so we will be able to use the card for linux as well as virtual machines.
-2. 
+2. First we need to install hooks for qemu. Hooks enable us to execute scripts  when we turn on or off our virtual machine.
+[**Link for hooks reference**](https://passthroughpo.st/simple-per-vm-libvirt-hooks-with-the-vfio-tools-hook-helper/)
+3. First make this directory. <br>
+`$ mkdir -p /etc/libvirt/hooks`
+4. Install hook helper and make it executable. <br>
+   `sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
+     -O /etc/libvirt/hooks/qemu`<br>
+     `sudo chmod +x /etc/libvirt/hooks/qemu`
+5. Now download the `start.sh` script from my repo. Make a directory <br>
+    `mkdir -p /etc/libvirt/hooks/qemu.d/win10/prepare/begin` **<-- the *win10* part of the directory must be the same as our virtual machine name. in our case that's win10 but if you have named your vm anything else substitute win10 appropriately**.
+6. Move the `start.sh` script into the above directory. <br>
+`$ mv start.sh /etc/lbvirt/hooks/qemu.d/win10/prepare/begin/`
+7. Download the `end.sh` script and move the script into the following directory. <br>
+`$ mkdir -p /etc/libvirt/hooks/qemu.d/win10/release/end/` <br>
+`$ mv end.sh /etc/libvirt/hooks/qemu.d/win10/release/end/`
+> You may need to make the script executable and owned by root. Do this by running `sudo chmod +x $SCRIPT_NAME`
+> also the script assumes that you are using gnome desktop manager. if you are using another desktop manager change the systemctl stop/restart gdm appropriately.
+> 
+9. Now we have the scripts installed and ready to go.
+10. Now go into the virt-manager and open you vm and click on the *light bulb* icon and click on Add Hardware. <br>
+    Click on PCI Host Device and add your GPU card and it's subsequent device. 
+![Screenshot from 2023-09-12 10-46-18](https://github.com/BeroBrine/kvmGPU/assets/74451882/698b5f14-7196-40b0-a42a-bfff3475d45c).
+11. Now when you start up the virtual machine your desktop manager will stop and when it will restart only laptop screen will display linux output and your other screen will display the virtual machine.<br> **<-- This step causes a lot of problems. If you do not get this on the first try or if your virtual machine crashes a lot just try again. I had to install around 20-25  with just trial and error adding and deleting things in script and got a script which was consistent for me. You may also try to change config and test upon yourr system -->**
+![photo_6053123811320116399_y](https://github.com/BeroBrine/kvmGPU/assets/74451882/4a131a90-1c26-46b8-893c-bbda19b50fd5)
+12. If you successfully get upto this point. Install the drivers appropriate for your card and it should install without any problems.<br>
+**<-- In my case , after installing the drivers the screen went black. If this is the same case with you delete the vm but do not delete it's assosciated storage (proceed carefully as virt-manager defaults to deleting the assosciated storage). Click on create a new virtual machine but this time select import existing disk image and repeat the steps of adding GPU and subsequent hardware and install again and it should boot correctly. Remember to name you vm as win10 as hooks won't work if the name is different -->**
+13. Open Up your task manager and you should be able to see your card listed. 
+    
+
+
+
 
 
 
