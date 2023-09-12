@@ -13,11 +13,11 @@ For those of you who don't know what cpu isolation and virtio is read below. <br
 >
 ***
 ## System Description
-My system description is visible in below screenshot. <br />
-1. Laptop:- Legion 5i <br/>
-2. OS:- Arch Linux *(I use Arch btw!)* <br>
+My system description is visible in below screenshot. <br>
+1. Laptop:- Legion 5i
+2. OS:- Arch Linux *(I use Arch btw!)*
 3. Kernel:- 6.1.52-1-lts (long term support)
-4. Cpu:- Intel i5-10500H <br />
+4. Cpu:- Intel i5-10500H 
 5. Gpu:- Nvidia rtx 3050 **--> This is the gpu we will be passing to the win10 VM** <br>
 ![ss](https://github.com/BeroBrine/kvmGPU/assets/74451882/d22f9bea-b155-4cb7-b0db-e246089f88f3) <br>
 ***
