@@ -86,7 +86,7 @@ You should be able to boot into the window install.
 9. While selecting the disks we will encounter that there is not drive listed. This is because we have chosen the disk driver to be VirtIO instead of SATA. <br>
 ![Screenshot from 2023-09-12 09-52-07](/screenshots/disk.png) <br>
 10. We will need to install drivers for VirtIO. Click on the Load driver option below refresh. Click on the Browse option and select the VirtIO iso we had passed through before.
-11. In the drop down list we will find viostor. click on that and go to w10 and select amd64 for x64 architecture.
+11. In the drop down list we will find viostor at the bottom. Click on that and go to w10 and select amd64 for x64 architecture.
 12. The driver should be listed by the name "Red Hat VirtIO SCSI controller". Install this driver.
 13. We can continue the rest of the installation normally.
 14. Setup windows until we boot into Home Screen.
@@ -112,8 +112,8 @@ You should be able to boot into the window install.
 > 
 9. Now we have the scripts installed and ready to go.
 10. Now go into the virt-manager and open you vm and click on the *light bulb* icon and click on Add Hardware. <br>
-    Click on PCI Host Device and add your GPU card and it's subsequent device. 
-![Screenshot from 2023-09-12 10-46-18](/screenshots/gpu.png).
+    Click on PCI Host Device and add your GPU card and it's subsequent device. <br>
+![Screenshot from 2023-09-12 10-46-18](/screenshots/gpu.png)<br>
 **NOTE:- the next step will restart your desktop manager so you'll lose unsaved work on open applications. Save work before proceeding.**
 12. Now when you start up the virtual machine your desktop manager will stop and when it will restart only laptop screen will display linux output and your other screen will display the virtual machine.<br> **<-- This step causes a lot of problems. If you do not get this on the first try or if your virtual machine crashes a lot just try again. I had to install around 20-25  with just trial and error adding and deleting things in script and got a script which was consistent for me. You may also try to change config and test upon yourr system -->** <br>
 13. If you successfully get upto this point. Install the drivers appropriate for your card and it should install without any problems.<br>
