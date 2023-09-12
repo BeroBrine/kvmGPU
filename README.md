@@ -1,5 +1,5 @@
 ## Single GPU Laptop passthrough guide.
-This guide will help those with dual monitor setup as we will be able to use the second monitor for both linux and virtual machine vm without the need for rebooting. But this will also be as useful for desktop single GPU users as well.<br>
+This guide will help those with dual monitor setup as we will be able to use the second monitor for both linux and virtual machine vm without the need for rebooting. But this will also be as useful for single monitor users as well.<br>
 ***
 We will also setup core isolation as well as virtio drivers in this guide to make the performance as bare metal as possible. <br>
 For those of you who don't know what cpu isolation and virtio is read below. <br>
