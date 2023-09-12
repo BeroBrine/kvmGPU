@@ -104,9 +104,9 @@ You should be able to boot into the window install.
     `mkdir -p /etc/libvirt/hooks/qemu.d/win10/prepare/begin` **<-- the *win10* part of the directory must be the same as our virtual machine name. in our case that's win10 but if you have named your vm anything else substitute win10 appropriately**.
 6. Move the `start.sh` script into the above directory. <br>
 `$ mv start.sh /etc/lbvirt/hooks/qemu.d/win10/prepare/begin/`
-7. Download the `end.sh` script and move the script into the following directory. <br>
+7. Download the `revert.sh` script and move the script into the following directory. <br>
 `$ mkdir -p /etc/libvirt/hooks/qemu.d/win10/release/end/` <br>
-`$ mv end.sh /etc/libvirt/hooks/qemu.d/win10/release/end/`
+`$ mv revert.sh /etc/libvirt/hooks/qemu.d/win10/release/end/`
 > You may need to make the script executable and owned by root. Do this by running `sudo chmod +x $SCRIPT_NAME`
 > also the script assumes that you are using gnome desktop manager. if you are using another desktop manager change the systemctl stop/restart gdm appropriately.
 > 
