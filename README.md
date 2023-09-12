@@ -44,7 +44,7 @@ Example ouput. <br>
   `IOMMU Group 1:
 	00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v2/3rd Gen Core processor PCI Express Root Port [8086:0151] (rev 09)`
 ```diff
-- WARNING:- If you find anything other than your GPU and it's subsequent audio device and a PCI component. <br>
+- WARNING:- If you find anything other than your GPU and it's subsequent audio device and a PCI component. 
 - This guide won't work for you as we need the GPU components to be totally seperated.
 - You will need to perform ACS override patch which won't be covered in this guide. 
 - For me my GPU was in iommu group 2 and it looked like this.
