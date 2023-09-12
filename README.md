@@ -46,7 +46,7 @@ Example ouput. <br>
 ```diff
 - WARNING:- If you find anything other than your GPU and it's subsequent audio device and a PCI component. <br>
 - This guide won't work for you as we need the GPU components to be totally seperated.
-- You will need to perform ACS override patch which wonn't be covered in this guide. 
+- You will need to perform ACS override patch which won't be covered in this guide. 
 - For me my GPU was in iommu group 2 and it looked like this.
 
 ```
@@ -82,7 +82,18 @@ Beware as you will not be able to use the disk in linux properly as NTFS has it'
 6. Go to Boot Options and select SATA CDROM 1 and place it on top of VirtIO Disk 1. *This is important as virt manager doesn't automatticaly perform this and you won't be able to boot into the installtion if this step is missed.
 ![Screenshot from 2023-09-12 00-14-21](https://github.com/BeroBrine/kvmGPU/assets/74451882/2c4983c7-0b93-48d2-b0b3-21ea0d58755d)
 7. Click on the Add Hardware and onto USB host device and add the extra keyboard and mouse to the Virtual Machine.
-8. We will not pass the graphics card now , it'll be performed when we will finish setting up win10 . Continue with the installation.
+8. We will not pass the graphics card now , it'll be performed when we will finish setting up win10 . Continue with the installation. <br>
+You should be able to boot into the window install.
+9. While selecting the disks we will encounter that there is not drive listed. This is because we have chosen the disk driver to be VirtIO instead of SATA.
+![Screenshot from 2023-09-12 09-52-07](https://github.com/BeroBrine/kvmGPU/assets/74451882/4b65eaa1-4dc6-4e5c-9964-c01a2393a645)
+10. We will need to install drivers for VirtIO. Click on the Load driver option below refresh. Click on the Browse option and select the VirtIO iso we had passed through before.
+11. In the drop down list we will find viostor. click on that and go to w10 and select amd64 for x64 architecture.
+12. The driver should be listed by the name "Red Hat VirtIO SCSI controller". Install this driver.
+13. We can continue the rest of the installation normally.
+14. Setup windows until we boot into Home Screen.
+## 5) Prepping our GPU for Pass Through.
+1. Until now we did not pass through our gpu. Now we will setup hooks so that when we turn on our virtual machine our GPU card gets attached to virtual machine and when we turn off the card gets attached to linux so we will be able to use the card for linux as well as virtual machines.
+2. 
 
 
 
