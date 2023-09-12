@@ -115,20 +115,12 @@ You should be able to boot into the window install.
 10. Now go into the virt-manager and open you vm and click on the *light bulb* icon and click on Add Hardware. <br>
     Click on PCI Host Device and add your GPU card and it's subsequent device. 
 ![Screenshot from 2023-09-12 10-46-18](https://github.com/BeroBrine/kvmGPU/assets/74451882/698b5f14-7196-40b0-a42a-bfff3475d45c).
-11. Now when you start up the virtual machine your desktop manager will stop and when it will restart only laptop screen will display linux output and your other screen will display the virtual machine.<br> **<-- This step causes a lot of problems. If you do not get this on the first try or if your virtual machine crashes a lot just try again. I had to install around 20-25  with just trial and error adding and deleting things in script and got a script which was consistent for me. You may also try to change config and test upon yourr system -->**
-![photo_6053123811320116399_y](https://github.com/BeroBrine/kvmGPU/assets/74451882/4a131a90-1c26-46b8-893c-bbda19b50fd5)
+11. Now when you start up the virtual machine your desktop manager will stop and when it will restart only laptop screen will display linux output and your other screen will display the virtual machine.<br> **<-- This step causes a lot of problems. If you do not get this on the first try or if your virtual machine crashes a lot just try again. I had to install around 20-25  with just trial and error adding and deleting things in script and got a script which was consistent for me. You may also try to change config and test upon yourr system -->** <br>
+<img src="https://github.com/BeroBrine/kvmGPU/assets/74451882/4a131a90-1c26-46b8-893c-bbda19b50fd5" width="400" height="400"> <br>
 12. If you successfully get upto this point. Install the drivers appropriate for your card and it should install without any problems.<br>
 **<-- In my case , after installing the drivers the screen went black. If this is the same case with you delete the vm but do not delete it's assosciated storage (proceed carefully as virt-manager defaults to deleting the assosciated storage). Click on create a new virtual machine but this time select import existing disk image and repeat the steps of adding GPU and subsequent hardware and install again and it should boot correctly. Remember to name you vm as win10 as hooks won't work if the name is different -->**
 13. Open Up your task manager and you should be able to see your card listed. 
     
-
-
-
-
-
-
-
-
 
 
 
